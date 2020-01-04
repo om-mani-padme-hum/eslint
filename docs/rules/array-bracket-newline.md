@@ -14,10 +14,11 @@ This rule has either a string option:
 * `"never"` disallows line breaks inside brackets
 * `"consistent"` requires consistent usage of linebreaks for each pair of brackets. It reports an error if one bracket in the pair has a linebreak inside it and the other bracket does not.
 
-Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
+Or an object option:
 
 * `"multiline": true` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
 * `"minItems": null` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
+* `"remove": true` (default) disallows line breaks if they do not meet the requirements for line breaks defined by the other options.  If this is false, using line breaks when not explicitly required will not be disallowed.
 
 ### always
 
@@ -267,6 +268,44 @@ var e = [
 ];
 ```
 
+### multiline, minItems, and remove
+
+Examples of **incorrect** code for this rule with the `{ "multiline": true, "minItems": 2, "remove": false }` options:
+
+```js
+/*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
+
+var a = [1, 2];
+var b = [1,
+    2];
+var c = [function foo() {
+    dosomething();
+}];
+```
+
+Examples of **correct** code for this rule with the `{ "multiline": true, "minItems": 2 }` options:
+
+```js
+/*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
+
+var a = [];
+var b = [1];
+var c = [
+    1
+];
+var d = [
+    1, 2
+];
+var e = [
+    1,
+    2
+];
+var f = [
+    function foo() {
+        dosomething();
+    }
+];
+```
 
 ## When Not To Use It
 

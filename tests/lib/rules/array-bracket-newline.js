@@ -131,6 +131,33 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var d = [\n1,\n2\n];", options: [{ multiline: true, minItems: 2 }] },
         { code: "var e = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 2 }] },
 
+        // { multiline: true, minItems: 2, remove: false }
+        { code: "var a = [];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var b = [1];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var b = [ // any comment\n1\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var b = [ /* any comment */ 1];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var c = [\n1, 2\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var c = [\n/* any comment */1, 2\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var c = [\n1, /* any comment */ 2\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var d = [\n1\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var d = [\n/* any comment */1\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var d = [\n1/* any comment */\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var e = [\n1,\n2\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+        { code: "var f = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 2, remove: false }] },
+
+        // { multiline: true, remove: false }
+        { code: "var a = [];", options: [{ multiline: true, remove: false }] },
+        { code: "var b = [1];", options: [{ multiline: true, remove: false }] },
+        { code: "var b = [ // any comment\n1\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var b = [ /* any comment */ 1];", options: [{ multiline: true, remove: false }] },
+        { code: "var c = [\n/* any comment */1, 2\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var c = [\n1, /* any comment */ 2\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var d = [\n1\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var d = [\n/* any comment */1\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var d = [\n1/* any comment */\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var e = [\n1,\n2\n];", options: [{ multiline: true, remove: false }] },
+        { code: "var f = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ multiline: true, remove: false }] },
+
         /*
          * ArrayPattern
          * default { multiline: true }
@@ -1139,6 +1166,145 @@ ruleTester.run("array-bracket-newline", rule, {
             code: "var foo = [function foo() {\ndosomething();\n}];",
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             options: [{ multiline: true, minItems: 2 }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 2
+                }
+            ]
+        },
+
+        // { minItems: 2, remove: false }
+        {
+            code: "var foo = [1, 2];",
+            output: "var foo = [\n1, 2\n];",
+            options: [{ minItems: 2, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2];",
+            output: "var foo = [\n1,\n2\n];",
+            options: [{ minItems: 2, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2
+                }
+            ]
+        },
+
+        // { multiline: true, minItems: 2, remove: false }
+        {
+            code: "var foo = [1, 2];",
+            output: "var foo = [\n1, 2\n];",
+            options: [{ multiline: true, minItems: 2, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2];",
+            output: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: true, minItems: 2, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2
+                }
+            ]
+        },
+        {
+            code: "var foo = [function foo() {\ndosomething();\n}];",
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: 2, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 2
+                }
+            ]
+        },
+
+        // { multiline: true, minItems: null, remove: false }
+        {
+            code: "var foo = [1,\n2];",
+            output: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: true, minItems: null, remove: false }],
+            errors: [
+                {
+                    messageId: "missingOpeningLinebreak",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2
+                }
+            ]
+        },
+        {
+            code: "var foo = [function foo() {\ndosomething();\n}];",
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: null, remove: false }],
             errors: [
                 {
                     messageId: "missingOpeningLinebreak",
